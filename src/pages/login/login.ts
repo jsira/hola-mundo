@@ -28,14 +28,12 @@ submited: boolean = false;
       this.presentLoading();
       this.authService.login(this.user).subscribe((response) =>{     
       this.storage.ready().then(() => {
-        debugger;
         this.storage.set('token', response);        
         this.leaveLoading();
         setTimeout(() => { this.navCtrl.setRoot(TabsPage)}, 250);
       });      
       
     }, (err) =>{
-      debugger;
         this.leaveLoading();
         this._errorLogin();
       });
