@@ -13,11 +13,13 @@ export class LogoutPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private authService: AuthProvider) {
+      
   }
+ 
 
   logout() {
-    this.authService.logout();
-    this.navCtrl.setRoot(LoginPage);
+    this.authService.logout();    
+    this.navCtrl.parent.parent.setRoot(LoginPage);
   }
 
 }
