@@ -11,39 +11,39 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-user: {username?: string, password?: string} = {};
-submited: boolean = false;
+  user: { username?: string, password?: string } = {};
+  submited: boolean = false;
 
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams,     
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
-    private authService: AuthProvider, 
+    private authService: AuthProvider,
     public storage: Storage) {
   }
 
-  onLogin (form){    
+  onLogin(form) {
     this.submited = true;
-    if(form.valid){
+    if (form.valid) {
       this.presentLoading();
-      this.authService.login(this.user).subscribe((response) =>{     
-      this.storage.ready().then(() => {
-        this.storage.set('token', response);        
+      this.authService.login(this.user).subscribe((response) => {
+        this.storage.ready().then(() => {
+          this.storage.set('session', response);
+          this.leaveLoading();
+          setTimeout(() => { this.navCtrl.setRoot(TabsPage) }, 250);
+        });
+      }, (err) => {
+        let msj = err['_body'];
         this.leaveLoading();
-        setTimeout(() => { this.navCtrl.setRoot(TabsPage)}, 250);
-      });      
-      
-    }, (err) =>{
-        this.leaveLoading();
-        this._errorLogin();
+        this._errorLogin(msj);
       });
-    }    
+    }
   }
 
-  private _errorLogin(){
+  private _errorLogin(msj) {
     let alert = this.alertCtrl.create({
       title: 'Error Login',
-      subTitle: 'Ha ocurrido un error al Iniciar Sesión',
+      subTitle: msj,
       buttons: [
         {
           text: 'Ok',
@@ -58,8 +58,8 @@ submited: boolean = false;
   }
 
   loader = this.loadingCtrl.create({
-      content: "Espere un momento..."
-    });
+    content: "Espere un momento..."
+  });
 
   presentLoading() {
     this.loader = this.loadingCtrl.create({
@@ -68,8 +68,8 @@ submited: boolean = false;
 
     this.loader.present();
   }
- leaveLoading() {
-    
+  leaveLoading() {
+
     this.loader.dismiss();
   }
 

@@ -1,3 +1,4 @@
+import { LogoutPage } from './../pages/logout/logout';
 import { LoginPage } from './../pages/login/login';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,7 +25,8 @@ import { HttpModule } from '@angular/http';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    LogoutPage
   ],
   imports: [
     BrowserModule,
